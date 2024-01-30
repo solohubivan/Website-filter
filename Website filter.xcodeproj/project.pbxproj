@@ -16,6 +16,8 @@
 		22A9E5962B6704230023036E /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9E5952B6704230023036E /* UIViewExtension.swift */; };
 		22A9E5982B6704A30023036E /* UIColorExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9E5972B6704A30023036E /* UIColorExtention.swift */; };
 		22A9E59B2B6705CD0023036E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9E59A2B6705CD0023036E /* NetworkMonitor.swift */; };
+		22B591F72B69698D003CDE76 /* AddRestrictionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B591F62B69698D003CDE76 /* AddRestrictionVC.swift */; };
+		22B591F92B6969EE003CDE76 /* ListRestrictionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B591F82B6969EE003CDE76 /* ListRestrictionsVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		22A9E5952B6704230023036E /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		22A9E5972B6704A30023036E /* UIColorExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtention.swift; sourceTree = "<group>"; };
 		22A9E59A2B6705CD0023036E /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		22B591F62B69698D003CDE76 /* AddRestrictionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRestrictionVC.swift; sourceTree = "<group>"; };
+		22B591F82B6969EE003CDE76 /* ListRestrictionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRestrictionsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +80,8 @@
 			isa = PBXGroup;
 			children = (
 				225CED3B2B66F19A0064A19A /* MainViewController.swift */,
+				22B591F62B69698D003CDE76 /* AddRestrictionVC.swift */,
+				22B591F82B6969EE003CDE76 /* ListRestrictionsVC.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -204,6 +210,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				225CED3C2B66F19A0064A19A /* MainViewController.swift in Sources */,
+				22B591F92B6969EE003CDE76 /* ListRestrictionsVC.swift in Sources */,
+				22B591F72B69698D003CDE76 /* AddRestrictionVC.swift in Sources */,
 				22A9E59B2B6705CD0023036E /* NetworkMonitor.swift in Sources */,
 				225CED382B66F19A0064A19A /* AppDelegate.swift in Sources */,
 				22A9E5982B6704A30023036E /* UIColorExtention.swift in Sources */,

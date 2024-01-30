@@ -12,9 +12,14 @@ class MainViewController: UIViewController {
     
     private var appNameLabel = UILabel()
     private var searchingTextField = UITextField()
+    private var underscoreLine = UIView()
     private var webView = WKWebView()
     
-    private var underscoreLine = UIView()
+    private var buttonsStackView = UIStackView()
+    private var backButton = UIButton(type: .custom)
+    private var forwardButton = UIButton(type: .custom)
+    private var listButton = UIButton(type: .custom)
+    private var addButton = UIButton(type: .custom)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,20 +27,22 @@ class MainViewController: UIViewController {
         self.view.backgroundColor = UIColor.backgroundColor
         setupUI()
     }
+    
+    // MARK: - Setup UI
 
     private func setupUI() {
         setupAppNameLabel()
         setupSearchingTextField()
         setupUnderscoreLine()
-        
         setupWebView()
+        setupButtonsStackView()
     }
     
     private func setupAppNameLabel() {
         appNameLabel.text = "Website filter"
         appNameLabel.textColor = UIColor.black
         appNameLabel.font = UIFont(name: "Rubik-Medium", size: 28)
-        
+ 
         view.addSubview(appNameLabel)
         appNameLabel.addConstraints(to_view: view, [
             .top(anchor: view.topAnchor, constant: 60),
@@ -52,7 +59,7 @@ class MainViewController: UIViewController {
         
         view.addSubview(searchingTextField)
         searchingTextField.addConstraints(to_view: view, [
-            .top(anchor: view.topAnchor, constant: 100),
+            .top(anchor: appNameLabel.bottomAnchor, constant: 12),
             .leading(anchor: view.leadingAnchor, constant: 16),
             .trailing(anchor: view.trailingAnchor, constant: 16),
             .height(constant: 36)
@@ -82,21 +89,85 @@ class MainViewController: UIViewController {
     }
     
     private func setupWebView() {
+        webView.isHidden = true
         view.addSubview(webView)
         webView.addConstraints(to_view: view, [
-            .top(anchor: searchingTextField.bottomAnchor, constant: 16)
+            .top(anchor: searchingTextField.bottomAnchor, constant: 16),
+            .bottom(anchor: view.bottomAnchor, constant: 60)
         ])
+    }
+    
+    func setupButtonsStackView() {
+        buttonsStackView.axis = .horizontal
+        buttonsStackView.alignment = .center
+        buttonsStackView.distribution = .equalSpacing
+        
+        createButton(buttonName: backButton, imageName: "arrowBack", action: #selector(backButtonTapped))
+        createButton(buttonName: forwardButton, imageName: "arrowForward", action: #selector(forwardButtonTapped))
+        createButton(buttonName: listButton, imageName: "listButton", action: #selector(listButtonTapped))
+        createButton(buttonName: addButton, imageName: "addButton", action: #selector(addButtonTapped))
+        
+        backButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 22, right: 0)
+        forwardButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 22, right: 0)
+        listButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 22, right: 0)
+        addButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 22, right: 0)
+        
+        buttonsStackView.addArrangedSubview(backButton)
+        buttonsStackView.addArrangedSubview(forwardButton)
+        buttonsStackView.addArrangedSubview(listButton)
+        buttonsStackView.addArrangedSubview(addButton)
+        
+        view.addSubview(buttonsStackView)
+        buttonsStackView.addConstraints(to_view: view, [
+            .top(anchor: webView.bottomAnchor, constant: 0),
+            .bottom(anchor: view.bottomAnchor, constant: 0),
+            .leading(anchor: view.leadingAnchor, constant: 0),
+            .trailing(anchor: view.trailingAnchor, constant: 0)
+        ])
+    }
+
+    // MARK: - Private methods
+    
+    private func createButton(buttonName: UIButton, imageName: String, action: Selector) {
+        let buttonImage = UIImage(named: imageName)
+        buttonName.setImage(buttonImage, for: .normal)
+        buttonName.imageView?.contentMode = .scaleAspectFit
+        buttonName.addTarget(self, action: action, for: .touchUpInside)
+    }
+    
+    // MARK: - buttons selectors
+    
+    @objc func backButtonTapped() {
+        appNameLabel.text = "кнопка нажалась"
+    }
+    
+    @objc func forwardButtonTapped() {
+        appNameLabel.text = "кнопка 2 нажалась"
+    }
+    
+    @objc func listButtonTapped() {
+        appNameLabel.text = "кнопка 3 нажалась"
+    }
+    
+    @objc func addButtonTapped() {
+        appNameLabel.text = "кнопка 4 нажалась"
     }
 }
 
+// MARK: - Textfield properties
+
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
         textField.resignFirstResponder()
+        
         if let searchText = searchingTextField.text,
            let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
            let url = URL(string: "https://www.google.com/search?q=\(encodedText)") {
             let request = URLRequest(url: url)
             webView.load(request)
+            
+            webView.isHidden = false
         }
         return true
     }
