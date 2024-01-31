@@ -36,6 +36,8 @@ class MainViewController: UIViewController {
         setupUnderscoreLine()
         setupWebView()
         setupButtonsStackView()
+        
+        setupKeyboardDismissGesture()
     }
     
     private func setupAppNameLabel() {
@@ -97,7 +99,7 @@ class MainViewController: UIViewController {
         ])
     }
     
-    func setupButtonsStackView() {
+    private func setupButtonsStackView() {
         buttonsStackView.axis = .horizontal
         buttonsStackView.alignment = .center
         buttonsStackView.distribution = .equalSpacing
@@ -119,10 +121,7 @@ class MainViewController: UIViewController {
         
         view.addSubview(buttonsStackView)
         buttonsStackView.addConstraints(to_view: view, [
-            .top(anchor: webView.bottomAnchor, constant: 0),
-            .bottom(anchor: view.bottomAnchor, constant: 0),
-            .leading(anchor: view.leadingAnchor, constant: 0),
-            .trailing(anchor: view.trailingAnchor, constant: 0)
+            .top(anchor: webView.bottomAnchor, constant: 0)
         ])
     }
 
@@ -137,20 +136,22 @@ class MainViewController: UIViewController {
     
     // MARK: - buttons selectors
     
-    @objc func backButtonTapped() {
+    @objc private func backButtonTapped() {
         appNameLabel.text = "кнопка нажалась"
     }
     
-    @objc func forwardButtonTapped() {
+    @objc private func forwardButtonTapped() {
         appNameLabel.text = "кнопка 2 нажалась"
     }
     
-    @objc func listButtonTapped() {
+    @objc private func listButtonTapped() {
         appNameLabel.text = "кнопка 3 нажалась"
     }
     
-    @objc func addButtonTapped() {
-        appNameLabel.text = "кнопка 4 нажалась"
+    @objc private func addButtonTapped() {
+        let addRestrictionVC = AddRestrictionVC()
+        addRestrictionVC.modalPresentationStyle = .formSheet
+        present(addRestrictionVC, animated: true)
     }
 }
 
