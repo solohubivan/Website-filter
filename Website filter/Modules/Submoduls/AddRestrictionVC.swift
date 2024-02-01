@@ -30,6 +30,8 @@ class AddRestrictionVC: UIViewController {
         view.insertSubview(blurEffectView, at: 0)
     }
     
+    // MARK: - Setup UI
+    
     private func setupUI() {
         setupTitleLabel()
         setupBackToMainVCButton()
@@ -88,7 +90,6 @@ class AddRestrictionVC: UIViewController {
         inputRestrictionTF.delegate = self
         inputRestrictionTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: Int(inputRestrictionTF.frame.height)))
         inputRestrictionTF.leftViewMode = .always
-        inputRestrictionTF.borderStyle = .none
         inputRestrictionTF.layer.borderColor = UIColor.lightGray.cgColor
         inputRestrictionTF.layer.borderWidth = 1
         inputRestrictionTF.layer.cornerRadius = 12
@@ -103,17 +104,25 @@ class AddRestrictionVC: UIViewController {
             .height(constant: 40)
         ])
     }
-}
-
-extension AddRestrictionVC: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        textField.resignFirstResponder()
+    
+    // MARK: - Private methods
+    
+    private func addRestrictions() {
         if let filterString = inputRestrictionTF.text, !filterString.isEmpty {
             let filter = Filter(filterString: filterString)
             onFilterAdded?(filter)
             inputRestrictionTF.text = ""
         }
+    }
+}
+
+// MARK: - Textfield properties
+
+extension AddRestrictionVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        addRestrictions()
         return true
     }
 }

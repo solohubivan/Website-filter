@@ -21,7 +21,7 @@ class MainViewController: UIViewController {
     private var listButton = UIButton(type: .custom)
     private var addButton = UIButton(type: .custom)
     
-    private var filters: [Filter] = []
+    var filters: [Filter] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,7 +138,18 @@ class MainViewController: UIViewController {
     }
     
     @objc private func listButtonTapped() {
-        appNameLabel.text = "кнопка 3 нажалась"
+        let listRestrictions = ListRestrictionsVC()
+        listRestrictions.modalPresentationStyle = .formSheet
+        
+        listRestrictions.filters = self.filters
+        
+        listRestrictions.onFilterRemoved = { [weak self] removedFilter in
+            if let index = self?.filters.firstIndex(of: removedFilter) {
+                self?.filters.remove(at: index)
+            }
+        }
+        
+        present(listRestrictions, animated: true)
     }
     
     @objc private func addButtonTapped() {
@@ -173,7 +184,6 @@ class MainViewController: UIViewController {
             } else {
     // Ссылка содержит фильтрованные строки, выполните нужное действие, например, покажите сообщение об ошибке
                 webView.isHidden = true
-                print("Ссылка содержит фильтрованные строки")
             }
         }
     }

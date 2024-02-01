@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Filter {
+struct Filter: Equatable {
     let filterString: String
 }
