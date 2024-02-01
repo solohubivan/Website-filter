@@ -95,6 +95,7 @@ class AddRestrictionVC: UIViewController {
         inputRestrictionTF.layer.cornerRadius = 12
         inputRestrictionTF.backgroundColor = UIColor.backgroundColor
         inputRestrictionTF.placeholder = "Input here words for filtering"
+        inputRestrictionTF.overrideUserInterfaceStyle = .light
         
         self.view.addSubview(inputRestrictionTF)
         inputRestrictionTF.addConstraints(to_view: view, [

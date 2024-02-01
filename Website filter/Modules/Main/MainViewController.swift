@@ -28,6 +28,7 @@ class MainViewController: UIViewController, WKNavigationDelegate {
         
         self.view.backgroundColor = UIColor.backgroundColor
         setupUI()
+        checkInternetConnection()
     }
     
     // MARK: - Setup UI
@@ -58,6 +59,7 @@ class MainViewController: UIViewController, WKNavigationDelegate {
         searchingTextField.delegate = self
         searchingTextField.clearButtonMode = .whileEditing
         searchingTextField.placeholder = "Tap to search"
+        searchingTextField.overrideUserInterfaceStyle = .light
         
         setupIconViews()
         
@@ -182,24 +184,26 @@ class MainViewController: UIViewController, WKNavigationDelegate {
     }
 
     private func searchingGoogle() {
-        if let searchText = searchingTextField.text,
-           let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: "https://www.google.com/search?q=\(encodedText)") {
-            let request = URLRequest(url: url)
-            
-            if !isURLFiltered(url) {
+        guard let searchText = searchingTextField.text else { return }
+        let words = searchText.components(separatedBy: .whitespacesAndNewlines)
+
+        let filteredWords = words.filter { word in
+            !filters.contains { filter in word.lowercased().contains(filter.filterString.lowercased()) }
+        }
+        let filteredSearchText = filteredWords.joined(separator: " ")
+
+        if !filteredSearchText.isEmpty {
+            if let encodedText = filteredSearchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+               let url = URL(string: "https://www.google.com/search?q=\(encodedText)") {
+                let request = URLRequest(url: url)
                 webView.load(request)
                 webView.isHidden = false
                 webView.allowsBackForwardNavigationGestures = true
-                
                 backButton.isEnabled = true
                 forwardButton.isEnabled = true
-            } else {
-    // додай сюди дію в разі співпадіння з фільтром
-                webView.isHidden = true
-                backButton.isEnabled = false
-                forwardButton.isEnabled = false
             }
+        } else {
+            requestFullFilteredAlert()
         }
     }
 
@@ -210,6 +214,52 @@ class MainViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
+    private func checkInternetConnection() {
+        if !NetworkMonitor.shared.isConnected {
+            DispatchQueue.main.async {
+                self.showNoInternetAlert()
+            }
+        }
+    }
+    
+    // MARK: - Alerts
+    
+    private func requestFullFilteredAlert() {
+        let cancelAction = AlertFactory.createAlertAction(
+            title: "Cancel",
+            style: .cancel
+        )
+        let alertController = AlertFactory.createAlert(
+            title: "All your request is filtered",
+            message: "Please customize filters or change request",
+            actions: [cancelAction]
+        )
+
+        present(alertController, animated: true, completion: nil)
+    }
+
+    private func showNoInternetAlert() {
+        let cancelAction = AlertFactory.createAlertAction(
+            title: "Cancel",
+            style: .cancel
+        )
+        let settingsAction = AlertFactory.createAlertAction(
+            title: "Settings",
+            style: .default
+        ) { _ in
+            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsURL)
+            }
+        }
+
+        let alertController = AlertFactory.createAlert(
+            title: "Internet connection is unavailable",
+            message: "please allow this app to internet access",
+            actions: [cancelAction, settingsAction]
+        )
+
+        present(alertController, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Textfield properties
