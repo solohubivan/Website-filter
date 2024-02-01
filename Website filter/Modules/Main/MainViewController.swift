@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, WKNavigationDelegate {
     
     private var appNameLabel = UILabel()
     private var searchingTextField = UITextField()
@@ -94,6 +94,8 @@ class MainViewController: UIViewController {
     
     private func setupWebView() {
         webView.isHidden = true
+        webView.navigationDelegate = self
+        
         view.addSubview(webView)
         webView.addConstraints(to_view: view, [
             .top(anchor: searchingTextField.bottomAnchor, constant: 16),
@@ -110,6 +112,9 @@ class MainViewController: UIViewController {
         createButton(buttonName: forwardButton, imageName: "arrowForward", action: #selector(forwardButtonTapped))
         createButton(buttonName: listButton, imageName: "listButton", action: #selector(listButtonTapped))
         createButton(buttonName: addButton, imageName: "addButton", action: #selector(addButtonTapped))
+        
+        backButton.isEnabled = false
+        forwardButton.isEnabled = false
         
         backButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 22, right: 0)
         forwardButton.contentEdgeInsets = UIEdgeInsets(top: 5, left: 0, bottom: 22, right: 0)
@@ -130,11 +135,15 @@ class MainViewController: UIViewController {
     // MARK: - buttons selectors
     
     @objc private func backButtonTapped() {
-        appNameLabel.text = "кнопка нажалась"
+        if webView.canGoBack {
+            webView.goBack()
+        }
     }
     
     @objc private func forwardButtonTapped() {
-        appNameLabel.text = "кнопка 2 нажалась"
+        if webView.canGoForward {
+            webView.goForward()
+        }
     }
     
     @objc private func listButtonTapped() {
@@ -181,9 +190,15 @@ class MainViewController: UIViewController {
             if !isURLFiltered(url) {
                 webView.load(request)
                 webView.isHidden = false
+                webView.allowsBackForwardNavigationGestures = true
+                
+                backButton.isEnabled = true
+                forwardButton.isEnabled = true
             } else {
-    // Ссылка содержит фильтрованные строки, выполните нужное действие, например, покажите сообщение об ошибке
+    // додай сюди дію в разі співпадіння з фільтром
                 webView.isHidden = true
+                backButton.isEnabled = false
+                forwardButton.isEnabled = false
             }
         }
     }
