@@ -14,6 +14,8 @@ class AddRestrictionVC: UIViewController {
     private var separateLine = UIView()
     private var inputRestrictionTF = UITextField()
     
+    var onFilterAdded: ((Filter) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -67,6 +69,10 @@ class AddRestrictionVC: UIViewController {
             .trailing(anchor: titleLabel.leadingAnchor, constant: 10)
         ])
     }
+    
+    @objc private func backToMainVCButtonTapped() {
+        self.dismiss(animated: true, completion: nil)
+    }
 
     private func setupSeparateLine() {
         separateLine.backgroundColor = UIColor.lightGray
@@ -97,15 +103,17 @@ class AddRestrictionVC: UIViewController {
             .height(constant: 40)
         ])
     }
-
-    // MARK: - IBActions
- 
-    @objc private func backToMainVCButtonTapped() {
-        self.dismiss(animated: true, completion: nil)
-    }
- 
 }
 
 extension AddRestrictionVC: UITextFieldDelegate {
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        if let filterString = inputRestrictionTF.text, !filterString.isEmpty {
+            let filter = Filter(filterString: filterString)
+            onFilterAdded?(filter)
+            inputRestrictionTF.text = ""
+        }
+        return true
+    }
 }

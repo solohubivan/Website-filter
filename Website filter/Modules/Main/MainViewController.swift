@@ -21,6 +21,8 @@ class MainViewController: UIViewController {
     private var listButton = UIButton(type: .custom)
     private var addButton = UIButton(type: .custom)
     
+    private var filters: [Filter] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -124,15 +126,6 @@ class MainViewController: UIViewController {
             .top(anchor: webView.bottomAnchor, constant: 0)
         ])
     }
-
-    // MARK: - Private methods
-    
-    private func createButton(buttonName: UIButton, imageName: String, action: Selector) {
-        let buttonImage = UIImage(named: imageName)
-        buttonName.setImage(buttonImage, for: .normal)
-        buttonName.imageView?.contentMode = .scaleAspectFit
-        buttonName.addTarget(self, action: action, for: .touchUpInside)
-    }
     
     // MARK: - buttons selectors
     
@@ -151,8 +144,47 @@ class MainViewController: UIViewController {
     @objc private func addButtonTapped() {
         let addRestrictionVC = AddRestrictionVC()
         addRestrictionVC.modalPresentationStyle = .formSheet
+        
+        addRestrictionVC.onFilterAdded = { [weak self] filter in
+            self?.filters.append(filter)
+        }
+        
         present(addRestrictionVC, animated: true)
     }
+    
+    // MARK: - Private methods
+    
+    private func createButton(buttonName: UIButton, imageName: String, action: Selector) {
+        let buttonImage = UIImage(named: imageName)
+        buttonName.setImage(buttonImage, for: .normal)
+        buttonName.imageView?.contentMode = .scaleAspectFit
+        buttonName.addTarget(self, action: action, for: .touchUpInside)
+    }
+
+    private func searchingGoogle() {
+        if let searchText = searchingTextField.text,
+           let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+           let url = URL(string: "https://www.google.com/search?q=\(encodedText)") {
+            let request = URLRequest(url: url)
+            
+            if !isURLFiltered(url) {
+                webView.load(request)
+                webView.isHidden = false
+            } else {
+    // Ссылка содержит фильтрованные строки, выполните нужное действие, например, покажите сообщение об ошибке
+                webView.isHidden = true
+                print("Ссылка содержит фильтрованные строки")
+            }
+        }
+    }
+
+    private func isURLFiltered(_ url: URL) -> Bool {
+        let urlString = url.absoluteString.lowercased()
+        return filters.contains { filter in
+            return urlString.contains(filter.filterString.lowercased())
+        }
+    }
+    
 }
 
 // MARK: - Textfield properties
@@ -161,15 +193,8 @@ extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
         textField.resignFirstResponder()
-        
-        if let searchText = searchingTextField.text,
-           let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: "https://www.google.com/search?q=\(encodedText)") {
-            let request = URLRequest(url: url)
-            webView.load(request)
-            
-            webView.isHidden = false
-        }
+        searchingGoogle()
+
         return true
     }
 }

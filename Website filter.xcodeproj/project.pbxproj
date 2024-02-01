@@ -16,6 +16,7 @@
 		225CED412B66F19B0064A19A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225CED402B66F19B0064A19A /* Assets.xcassets */; };
 		225CED442B66F19B0064A19A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225CED422B66F19B0064A19A /* LaunchScreen.storyboard */; };
 		226B13F02B6ADC850053EBE9 /* UIViewController+KeyboardDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226B13EF2B6ADC850053EBE9 /* UIViewController+KeyboardDismiss.swift */; };
+		226B13F22B6AE8930053EBE9 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226B13F12B6AE8930053EBE9 /* Filter.swift */; };
 		22A9E5962B6704230023036E /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9E5952B6704230023036E /* UIViewExtension.swift */; };
 		22A9E5982B6704A30023036E /* UIColorExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9E5972B6704A30023036E /* UIColorExtention.swift */; };
 		22A9E59B2B6705CD0023036E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A9E59A2B6705CD0023036E /* NetworkMonitor.swift */; };
@@ -35,6 +36,7 @@
 		225CED432B66F19B0064A19A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		225CED452B66F19B0064A19A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		226B13EF2B6ADC850053EBE9 /* UIViewController+KeyboardDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+KeyboardDismiss.swift"; sourceTree = "<group>"; };
+		226B13F12B6AE8930053EBE9 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		22A9E5952B6704230023036E /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		22A9E5972B6704A30023036E /* UIColorExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtention.swift; sourceTree = "<group>"; };
 		22A9E59A2B6705CD0023036E /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			children = (
 				22B591F62B69698D003CDE76 /* AddRestrictionVC.swift */,
 				22B591F82B6969EE003CDE76 /* ListRestrictionsVC.swift */,
+				226B13F12B6AE8930053EBE9 /* Filter.swift */,
 			);
 			path = Submoduls;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				225CED3C2B66F19A0064A19A /* MainViewController.swift in Sources */,
+				226B13F22B6AE8930053EBE9 /* Filter.swift in Sources */,
 				22B591F92B6969EE003CDE76 /* ListRestrictionsVC.swift in Sources */,
 				22B591F72B69698D003CDE76 /* AddRestrictionVC.swift in Sources */,
 				22A9E59B2B6705CD0023036E /* NetworkMonitor.swift in Sources */,
