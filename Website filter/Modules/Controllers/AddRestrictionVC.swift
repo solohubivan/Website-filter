@@ -1,5 +1,5 @@
 //
-//  ListRestrictions.swift
+//  AddRestrictionVC.swift
 //  Website filter
 //
 //  Created by Ivan Solohub on 30.01.2024.
@@ -7,16 +7,39 @@
 
 import UIKit
 
-class ListRestrictionsVC: UIViewController {
+class AddRestrictionVC: UIViewController {
+    
+    private lazy var addRestrictionView: AddRestrictionView = AddRestrictionView(frame: .zero)
+    
+    override func loadView() {
+        view = addRestrictionView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configureAddRestrictionView()
+    }
+    
+    private func configureAddRestrictionView() {
+        addRestrictionView.onBackButtonTapped = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
+    }
+}
+
+
+/*
+import UIKit
+
+class AddRestrictionVC: UIViewController {
     
     private var titleLabel = UILabel()
     private var backToMainVCButton = UIButton(type: .system)
     private var separateLine = UIView()
-    private var filterWordsTable = UITableView()
+    private var inputRestrictionTF = UITextField()
     
-    var filters: [Filter] = []
-    
-    var onFilterRemoved: ((Filter) -> Void)?
+    var onFilterAdded: ((Filter) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +61,13 @@ class ListRestrictionsVC: UIViewController {
         setupTitleLabel()
         setupBackToMainVCButton()
         setupSeparateLine()
-        setupFilterWordsTable()
+        setupInputRestrictionTF()
+        
+        setupKeyboardDismissGesture()
     }
     
     private func setupTitleLabel() {
-        titleLabel.text = "Current filters"
+        titleLabel.text = "Add filter"
         titleLabel.textColor = UIColor.black
         titleLabel.font = UIFont(name: "SFProText-Semibold", size: 20)
         
@@ -75,7 +100,7 @@ class ListRestrictionsVC: UIViewController {
     @objc private func backToMainVCButtonTapped() {
         self.dismiss(animated: true, completion: nil)
     }
-    
+
     private func setupSeparateLine() {
         separateLine.backgroundColor = UIColor.lightGray
         
@@ -86,60 +111,45 @@ class ListRestrictionsVC: UIViewController {
         ])
     }
     
-    private func setupFilterWordsTable() {
-        filterWordsTable.dataSource = self
-        filterWordsTable.delegate = self
-        filterWordsTable.register(UITableViewCell.self, forCellReuseIdentifier: "filterWordsTableCellID")
+    private func setupInputRestrictionTF() {
+        inputRestrictionTF.delegate = self
+        inputRestrictionTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: Int(inputRestrictionTF.frame.height)))
+        inputRestrictionTF.leftViewMode = .always
+        inputRestrictionTF.layer.borderColor = UIColor.lightGray.cgColor
+        inputRestrictionTF.layer.borderWidth = 1
+        inputRestrictionTF.layer.cornerRadius = 12
+        inputRestrictionTF.backgroundColor = UIColor.backgroundColor
+        inputRestrictionTF.placeholder = "Input here words for filtering"
+        inputRestrictionTF.overrideUserInterfaceStyle = .light
         
-        filterWordsTable.backgroundColor = .clear
-        filterWordsTable.overrideUserInterfaceStyle = .light
-        
-        self.view.addSubview(filterWordsTable)
-        filterWordsTable.addConstraints(to_view: view, [
-            .top(anchor: separateLine.bottomAnchor, constant: 2)
+        self.view.addSubview(inputRestrictionTF)
+        inputRestrictionTF.addConstraints(to_view: view, [
+            .top(anchor: separateLine.bottomAnchor, constant: 20),
+            .leading(anchor: view.leadingAnchor, constant: 16),
+            .trailing(anchor: view.trailingAnchor, constant: 16),
+            .height(constant: 40)
         ])
-        
-        filterWordsTable.reloadData()
     }
     
-}
-
-// MARK: - Table properties
-
-extension ListRestrictionsVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filters.count
-    }
+    // MARK: - Private methods
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "filterWordsTableCellID", for: indexPath)
-        let filter = filters[indexPath.row]
-        
-        cell.backgroundColor = .clear
-        cell.textLabel?.font = UIFont(name: "SFProText-Regular", size: 18)
-        cell.textLabel?.text = filter.filterString
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
-
-    func tableView(_ tableView: UITableView,
-                   commit editingStyle: UITableViewCell.EditingStyle,
-                   forRowAt indexPath: IndexPath) {
-
-        if editingStyle == .delete {
-            tableView.beginUpdates()
-            let removedFilter = filters.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            onFilterRemoved?(removedFilter)
-            tableView.endUpdates()
+    private func addRestrictions() {
+        if let filterString = inputRestrictionTF.text, !filterString.isEmpty {
+            let filter = Filter(filterString: filterString)
+            onFilterAdded?(filter)
+            inputRestrictionTF.text = ""
         }
     }
 }
 
+// MARK: - Textfield properties
+
+extension AddRestrictionVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        addRestrictions()
+        return true
+    }
+}
+*/

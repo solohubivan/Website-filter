@@ -6,6 +6,97 @@
 //
 
 import UIKit
+
+class MainViewController: UIViewController {
+    
+    lazy var mainView: MainView = {
+        let view = MainView(frame: .zero)
+        view.presentingViewController = self
+        return view
+    }()
+    
+    override func loadView() {
+        view = mainView
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        checkInternetConnection()
+        configureMainView()
+    }
+    // MARK: - Private methods
+    
+    private func checkInternetConnection() {
+        if !NetworkMonitor.shared.isConnected {
+            DispatchQueue.main.async {
+                self.showNoInternetAlert()
+            }
+        }
+    }
+    
+    private func configureMainView() {
+        mainView.showAlert = { [weak self] in
+            self?.showRequestFilteredAlert()
+        }
+    }
+    
+    private func showRequestFilteredAlert() {
+
+        let cancelAction = AlertFactory.createAlertAction(
+            title: Constants.alertCancelAction,
+            style: .cancel
+        )
+        let alertController = AlertFactory.createAlert(
+            title: Constants.requestFilteredAlertTitle,
+            message: Constants.requestFilteredAlertMessage,
+            actions: [cancelAction]
+        )
+        present(alertController, animated: true)
+    }
+    
+    private func showNoInternetAlert() {
+        let cancelAction = AlertFactory.createAlertAction(
+            title: Constants.alertCancelAction,
+            style: .cancel
+        )
+        let settingsAction = AlertFactory.createAlertAction(
+            title: Constants.alertSettingsAction,
+            style: .default
+        ) { _ in
+            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsURL)
+            }
+        }
+
+        let alertController = AlertFactory.createAlert(
+            title: Constants.noInternetAlertTitle,
+            message: Constants.noInternetAlertMessage,
+            actions: [cancelAction, settingsAction]
+        )
+
+        present(alertController, animated: true)
+    }
+}
+
+// MARK: - Constants
+
+extension MainViewController {
+    
+    private enum Constants {
+        
+        static let noInternetAlertTitle: String = "Internet connection is unavailable"
+        static let noInternetAlertMessage: String = "please allow this app to internet access"
+        static let alertCancelAction: String = "Cancel"
+        static let alertSettingsAction: String = "Settings"
+        static let requestFilteredAlertTitle: String = "All your request is filtered"
+        static let requestFilteredAlertMessage: String = "Please customize filters or change request"
+    }
+}
+
+
+/*
+import UIKit
 import WebKit
 
 class MainViewController: UIViewController, WKNavigationDelegate {
@@ -273,3 +364,4 @@ extension MainViewController: UITextFieldDelegate {
         return true
     }
 }
+*/

@@ -93,4 +93,17 @@ extension UIView {
             trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         }
     }
+    
+    func setupKeyboardDismissGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard() {
+        self.endEditing(true)
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.frame.origin.y = .zero
+    }
 }
