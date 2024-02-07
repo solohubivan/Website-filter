@@ -45,9 +45,9 @@ class ListRestrictionsView: UIView {
     }
     
     private func setupTitleLabel() {
-        titleLabel.text = Constants.titleLabelText
+        titleLabel.text = AppConstants.ListRestrictionsViewConstants.titleLabelText
         titleLabel.textColor = UIColor.black
-        titleLabel.font = UIFont(name: Constants.sFProTextSemiboldFont, size: 20)
+        titleLabel.font = UIFont(name: AppConstants.Fonts.sFProTextSemiboldFont, size: 20)
         
         self.addSubview(titleLabel)
         titleLabel.addConstraints(to_view: self, [
@@ -58,10 +58,10 @@ class ListRestrictionsView: UIView {
     }
     
     private func setupBackToMainVCButton() {
-        backToMainVCButton.setTitle(Constants.titleButtonBack, for: .normal)
-        backToMainVCButton.setImage(UIImage(systemName: Constants.backButtonImageName), for: .normal)
+        backToMainVCButton.setTitle(AppConstants.ButtonsNames.titleButtonBack, for: .normal)
+        backToMainVCButton.setImage(UIImage(systemName: AppConstants.ImageNames.backButtonImageName), for: .normal)
         backToMainVCButton.tintColor = .blue
-        backToMainVCButton.titleLabel?.font = UIFont(name: Constants.sFProTextRegularFont, size: 18)
+        backToMainVCButton.titleLabel?.font = UIFont(name: AppConstants.Fonts.sFProTextRegularFont, size: 18)
         backToMainVCButton.contentHorizontalAlignment = .left
         
         backToMainVCButton.addTarget(self, action: #selector(backToMainVCButtonTapped), for: .touchUpInside)
@@ -92,7 +92,7 @@ class ListRestrictionsView: UIView {
     private func setupFilterWordsTable() {
         filterWordsTable.dataSource = self
         filterWordsTable.delegate = self
-        filterWordsTable.register(UITableViewCell.self, forCellReuseIdentifier: Constants.filterWordsTableCellID)
+        filterWordsTable.register(UITableViewCell.self, forCellReuseIdentifier: AppConstants.TableCellsId.filterWordsTableCellID)
         
         filterWordsTable.backgroundColor = .clear
         filterWordsTable.overrideUserInterfaceStyle = .light
@@ -115,11 +115,11 @@ extension ListRestrictionsView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.filterWordsTableCellID, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: AppConstants.TableCellsId.filterWordsTableCellID, for: indexPath)
         let filter = FiltersManager.shared.getActiveFilters()[indexPath.row]
         
         cell.backgroundColor = .clear
-        cell.textLabel?.font = UIFont(name: Constants.sFProTextRegularFont, size: 18)
+        cell.textLabel?.font = UIFont(name: AppConstants.Fonts.sFProTextRegularFont, size: 18)
         cell.textLabel?.text = filter.filterString
         return cell
     }
@@ -142,23 +142,5 @@ extension ListRestrictionsView: UITableViewDelegate, UITableViewDataSource {
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }
-    }
-}
-
-// MARK: - Constants
-
-extension ListRestrictionsView {
-    
-    private enum Constants {
-        
-        static let titleLabelText: String = "Current filters"
-        static let titleButtonBack: String = "Back"
-        
-        static let sFProTextSemiboldFont: String = "SFProText-Semibold"
-        static let sFProTextRegularFont: String = "SFProText-Regular"
-        
-        static let backButtonImageName: String = "chevron.backward"
-        
-        static let filterWordsTableCellID: String = "filterWordsTableCellID"
     }
 }

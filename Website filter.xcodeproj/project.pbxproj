@@ -26,6 +26,7 @@
 		22D698B82B717905004E9536 /* AddRestrictionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D698B72B717905004E9536 /* AddRestrictionView.swift */; };
 		22D698BA2B717919004E9536 /* ListRestrictionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D698B92B717919004E9536 /* ListRestrictionsView.swift */; };
 		22D698BC2B717956004E9536 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D698BB2B717956004E9536 /* MainView.swift */; };
+		22DB2E262B73E3600067BFAC /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DB2E252B73E3600067BFAC /* AppConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		22D698B72B717905004E9536 /* AddRestrictionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRestrictionView.swift; sourceTree = "<group>"; };
 		22D698B92B717919004E9536 /* ListRestrictionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRestrictionsView.swift; sourceTree = "<group>"; };
 		22D698BB2B717956004E9536 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		22DB2E252B73E3600067BFAC /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 		22A9E5932B6702740023036E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				22DB2E252B73E3600067BFAC /* AppConstants.swift */,
 				226B4D062B6BB54100F6EC78 /* Utilities */,
 				22A9E5942B6702820023036E /* Extensions */,
 			);
@@ -271,6 +274,7 @@
 				226B13F22B6AE8930053EBE9 /* Filter.swift in Sources */,
 				22B591F92B6969EE003CDE76 /* ListRestrictionsVC.swift in Sources */,
 				22D698B22B7177D7004E9536 /* FiltersManager.swift in Sources */,
+				22DB2E262B73E3600067BFAC /* AppConstants.swift in Sources */,
 				22B591F72B69698D003CDE76 /* AddRestrictionVC.swift in Sources */,
 				22A9E59B2B6705CD0023036E /* NetworkMonitor.swift in Sources */,
 				225CED382B66F19A0064A19A /* AppDelegate.swift in Sources */,

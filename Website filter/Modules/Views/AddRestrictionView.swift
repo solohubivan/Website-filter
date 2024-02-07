@@ -47,9 +47,9 @@ class AddRestrictionView: UIView {
     }
     
     private func setupTitleLabel() {
-        titleLabel.text = Constants.titleLabelText
+        titleLabel.text = AppConstants.AddRestrictionViewConstants.titleLabelText
         titleLabel.textColor = UIColor.black
-        titleLabel.font = UIFont(name: Constants.sFProTextSemiboldFont, size: 20)
+        titleLabel.font = UIFont(name: AppConstants.Fonts.sFProTextSemiboldFont, size: 20)
         
         self.addSubview(titleLabel)
         titleLabel.addConstraints(to_view: self, [
@@ -60,10 +60,10 @@ class AddRestrictionView: UIView {
     }
     
     private func setupBackToMainVCButton() {
-        backToMainVCButton.setTitle(Constants.titleButtonBack, for: .normal)
-        backToMainVCButton.setImage(UIImage(systemName: Constants.backButtonImageName), for: .normal)
+        backToMainVCButton.setTitle(AppConstants.ButtonsNames.titleButtonBack, for: .normal)
+        backToMainVCButton.setImage(UIImage(systemName: AppConstants.ImageNames.backButtonImageName), for: .normal)
         backToMainVCButton.tintColor = .blue
-        backToMainVCButton.titleLabel?.font = UIFont(name: Constants.sFProTextRegularFont, size: 18)
+        backToMainVCButton.titleLabel?.font = UIFont(name: AppConstants.Fonts.sFProTextRegularFont, size: 18)
         backToMainVCButton.contentHorizontalAlignment = .left
         
         backToMainVCButton.addTarget(self, action: #selector(backToMainVCButtonTapped), for: .touchUpInside)
@@ -99,7 +99,7 @@ class AddRestrictionView: UIView {
         inputRestrictionTF.layer.borderWidth = 1
         inputRestrictionTF.layer.cornerRadius = 12
         inputRestrictionTF.backgroundColor = UIColor.textFieldbackgroundColor
-        inputRestrictionTF.placeholder = Constants.textFieldPlaceHolderText
+        inputRestrictionTF.placeholder = AppConstants.AddRestrictionViewConstants.textFieldPlaceHolderText
         inputRestrictionTF.overrideUserInterfaceStyle = .light
         
         self.addSubview(inputRestrictionTF)
@@ -118,26 +118,13 @@ extension AddRestrictionView: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        let filter = Filter(filterString: textField.text!)
-        FiltersManager.shared.addFilter(filter)
+        
+        if let text = textField.text, !text.isEmpty {
+            let filter = Filter(filterString: text)
+            FiltersManager.shared.addFilter(filter)
+        }
+        
         inputRestrictionTF.text = ""
         return true
-    }
-}
-
-// MARK: - Constants
-
-extension AddRestrictionView {
-    
-    private enum Constants {
-        
-        static let titleLabelText: String = "Add filter"
-        static let titleButtonBack: String = "Back"
-        static let textFieldPlaceHolderText: String = "Input here words for filtering"
-        
-        static let sFProTextSemiboldFont: String = "SFProText-Semibold"
-        static let sFProTextRegularFont: String = "SFProText-Regular"
-        
-        static let backButtonImageName: String = "chevron.backward"
     }
 }

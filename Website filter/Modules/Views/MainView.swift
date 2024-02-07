@@ -48,7 +48,7 @@ class MainView: UIView, WKNavigationDelegate {
     }
     
     private func setupAppNameLabel() {
-        appNameLabel.text = Constants.titleLabelText
+        appNameLabel.text = AppConstants.MainViewConstants.titleLabelText
         appNameLabel.textColor = UIColor.black
         appNameLabel.font = UIFont(name: "Rubik-Medium", size: 28)
  
@@ -62,7 +62,7 @@ class MainView: UIView, WKNavigationDelegate {
     private func setupSearchingTextField() {
         searchingTextField.delegate = self
         searchingTextField.clearButtonMode = .whileEditing
-        searchingTextField.placeholder = Constants.textFieldPlaceHolderText
+        searchingTextField.placeholder = AppConstants.MainViewConstants.textFieldPlaceHolderText
         searchingTextField.overrideUserInterfaceStyle = .light
         
         setupIconViews()
@@ -78,7 +78,7 @@ class MainView: UIView, WKNavigationDelegate {
 
     private func setupIconViews() {
         let searchIconView = UIView(frame: CGRect(x: .zero, y: .zero, width: 36, height: 20))
-        let searchImageView = UIImageView(image: UIImage(named: Constants.searchIconImageName))
+        let searchImageView = UIImageView(image: UIImage(named: AppConstants.ImageNames.searchIconImageName))
         searchImageView.frame = CGRect(x: 10, y: .zero, width: 20, height: 20)
         
         searchIconView.addSubview(searchImageView)
@@ -114,10 +114,10 @@ class MainView: UIView, WKNavigationDelegate {
         buttonsStackView.alignment = .center
         buttonsStackView.distribution = .equalSpacing
         
-        createButton(buttonName: backButton, imageName: Constants.backButtonImageName, action: #selector(backButtonTapped))
-        createButton(buttonName: forwardButton, imageName: Constants.forwardButtonImageName, action: #selector(forwardButtonTapped))
-        createButton(buttonName: listButton, imageName: Constants.listButtonImageName, action: #selector(listButtonTapped))
-        createButton(buttonName: addButton, imageName: Constants.addButtonImageName, action: #selector(addButtonTapped))
+        createButton(buttonName: backButton, imageName: AppConstants.ImageNames.backButtonWebImageName, action: #selector(backButtonTapped))
+        createButton(buttonName: forwardButton, imageName: AppConstants.ImageNames.forwardButtonImageName, action: #selector(forwardButtonTapped))
+        createButton(buttonName: listButton, imageName: AppConstants.ImageNames.listButtonImageName, action: #selector(listButtonTapped))
+        createButton(buttonName: addButton, imageName: AppConstants.ImageNames.addButtonImageName, action: #selector(addButtonTapped))
         
         backButton.isEnabled = false
         forwardButton.isEnabled = false
@@ -212,22 +212,5 @@ extension MainView: UITextFieldDelegate {
             textField.resignFirstResponder()
             performSearchWithFiltering(textField.text)
             return true
-    }
-}
-
-// MARK: - Constants
-
-extension MainView {
-    
-    private enum Constants {
-        
-        static let titleLabelText: String = "Website filter"
-        static let textFieldPlaceHolderText: String = "Tap to search"
-        
-        static let backButtonImageName: String = "arrowBack"
-        static let forwardButtonImageName: String = "arrowForward"
-        static let listButtonImageName: String = "listButton"
-        static let addButtonImageName: String = "addButton"
-        static let searchIconImageName: String = "searchIcon"
     }
 }
